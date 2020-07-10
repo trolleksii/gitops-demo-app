@@ -7,5 +7,3 @@ steps:
       - -c
       - |
         ls -laF
-images:
-  - gcr.io/${PROJECT_ID}/${_APPLICATION_NAME}:${TAG_NAME}
