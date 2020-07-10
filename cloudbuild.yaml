@@ -1,0 +1,16 @@
+steps:
+  # Build the pipeline container image.
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'gcr.io/${PROJECT_ID}/${APPLICATION_NAME}:${TAG_NAME}'
+      - '.'
+  - name: 'trolleksii/git'
+    entrypoint: /bin/sh
+    args:
+      - -c
+      - |
+        ls -laF
+images:
+  - gcr.io/${PROJECT_ID}/${APPLICATION_NAME}:${TAG_NAME}
