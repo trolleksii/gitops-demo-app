@@ -3,6 +3,21 @@ steps:
     args: ["--destination=gcr.io/$PROJECT_ID/$_APPLICATION_NAME:$TAG_NAME"]
   - name: trolleksii/git
     entrypoint: /bin/sh
+    dir: /workdir
     args:
       - -c
-      - git tag -l
+      - |
+        git config --global user.email "cbuild@acme.com"
+        git config --global user.name "Google Cloud Build"
+        git config credential.helper store
+        cat <<EOF | git credential fill
+        protocol=https
+        host=github.com
+        path=$_GITHUB_USER/gitops-demo-infra.git
+        username=$_GITHUB_USER
+        password=$_GITHUB_PASSWORD
+
+
+
+        EOF
+        git clone https://github.com/trolleksii/devops-demo-infra.git
