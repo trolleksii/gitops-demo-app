@@ -16,6 +16,7 @@ steps:
         git checkout dev
         # update config
         sed -i "s/^app = .*$/app = \"${TAG_NAME}\"/g" terraform/main.tfvars
+        git add terraform/main.tfvars
         git commit -F- <<EOF
         Update the gitops-demo-app
         This commit updates the container image to:
