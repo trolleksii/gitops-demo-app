@@ -1,9 +1,15 @@
 steps:
-  - name: gcr.io/kaniko-project/executor:latest
-    args: ["--destination=gcr.io/$PROJECT_ID/$_APPLICATION_NAME:$TAG_NAME"]
-  - name: trolleksii/git
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - --tag=gcr.io/$PROJECT_ID/$_APPLICATION_NAME:$TAG_NAME
+      - --file=Dockerfile
+      - "."
+  - name: gcr.io/cloud-builders/git
     entrypoint: /bin/sh
     args: ["./update-config.sh"]
   - name: alpine
     entrypoint: /bin/sh
     args: ["-c", "echo Placeholder for slack notification"]
+images:
+  - gcr.io/$PROJECT_ID/$_APPLICATION_NAME:$TAG_NAME
