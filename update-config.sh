@@ -14,4 +14,5 @@ This commit updates the container image to:
 
 Build ID: $BUILD_ID
 EOF
+git remote get-url origin
 git push
