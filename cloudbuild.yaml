@@ -1,5 +1,4 @@
 steps:
-  # grab git tag
   - name: gcr.io/cloud-builders/git
     volumes:
       - name: repo-tag
@@ -11,26 +10,24 @@ steps:
         git clone https://$_GITHUB_USER:$_GITHUB_PASSWORD@github.com/trolleksii/gitops-demo-app.git --branch dev
         cd gitops-demo-app
         git fetch --all --tags
-        echo "$(git describe --tags)" > /repo-tag/tag
-  - name: gcr.io/cloud-builders/git
+        echo -n "$(git describe --tags)" > /repo-tag/tag
+  - name: gcr.io/cloud-builders/docker
     volumes:
       - name: repo-tag
         path: /repo-tag
-    entrypoint: /bin/sh
     args:
-      - "-c"
-      - cat /repo-tag/tag
-  # - name: gcr.io/cloud-builders/docker
-  #   args:
-  #     - build
-  #     - --tag=gcr.io/$PROJECT_ID/$_APPLICATION_NAME:$SHORT_SHA
-  #     - --file=Dockerfile
-  #     - "."
-  # - name: gcr.io/cloud-builders/git
-  #   entrypoint: /bin/sh
-  #   args: ["./update-config.sh"]
-  # - name: alpine
-  #   entrypoint: /bin/sh
-  #   args: ["-c", "echo Placeholder for slack notification"]
-# images:
-#   - gcr.io/$PROJECT_ID/$_APPLICATION_NAME:$SHORT_SHA
+      - build
+      - --tag=gcr.io/$PROJECT_ID/$_APPLICATION_NAME:$(cat /repo-tag/tag)
+      - --file=Dockerfile
+      - "."
+  - name: gcr.io/cloud-builders/git
+    entrypoint: /bin/sh
+    volumes:
+      - name: repo-tag
+        path: /repo-tag
+    args: ["./update-config.sh"]
+  - name: alpine
+    entrypoint: /bin/sh
+    args: ["-c", "echo Placeholder for slack notification"]
+images:
+  - gcr.io/$PROJECT_ID/$_APPLICATION_NAME:$SHORT_SHA
