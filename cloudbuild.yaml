@@ -12,10 +12,7 @@ steps:
     entrypoint: /bin/sh
     args:
       - "-c"
-      - |
-        cat /workspace/tag
-        TAG_NAME=$(cat /workspace/tag)
-        docker build --tag=gcr.io/$PROJECT_ID/$_APPLICATION_NAME:$TAG_NAME --file=Dockerfile .
+      - docker build --tag=gcr.io/$PROJECT_ID/$_APPLICATION_NAME:$(cat /workspace/tag) --file=Dockerfile .
   - name: gcr.io/cloud-builders/git
     entrypoint: /bin/sh
     args: ["./update-config.sh"]
