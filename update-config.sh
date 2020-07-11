@@ -5,6 +5,7 @@ git config --global credential.helper 'store --file ~/.git-credentials'
 git clone https://trolleksii@github.com/trolleksii/gitops-demo-infra.git
 cd gitops-demo-infra
 git checkout dev
+git fetch --all --tags
 TAG_NAME="$(git describe --tags)"
 # update config
 # imitating image tag variable substitution
