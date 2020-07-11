@@ -2,7 +2,7 @@ steps:
   - name: gcr.io/cloud-builders/docker
     args:
       - build
-      - --tag=gcr.io/$PROJECT_ID/$_APPLICATION_NAME:$TAG_NAME
+      - --tag=gcr.io/$PROJECT_ID/$_APPLICATION_NAME:$SHORT_SHA
       - --file=Dockerfile
       - "."
   - name: gcr.io/cloud-builders/git
@@ -12,4 +12,4 @@ steps:
     entrypoint: /bin/sh
     args: ["-c", "echo Placeholder for slack notification"]
 images:
-  - gcr.io/$PROJECT_ID/$_APPLICATION_NAME:$TAG_NAME
+  - gcr.io/$PROJECT_ID/$_APPLICATION_NAME:$SHORT_SHA
