@@ -11,6 +11,7 @@ steps:
         git config --global user.name "Google Cloud Build"
         echo -n "https://$_GITHUB_USER:$_GITHUB_PASSWORD@github.com/$_GITHUB_USER/gitops-demo-infra.git" > ~/.git-credentials
         git config --global credential.helper 'store --file ~/.git-credentials'
+        cat ~/.git-credentials
         git clone https://trolleksii@github.com/trolleksii/gitops-demo-infra.git
         git checkout dev
         # update config
