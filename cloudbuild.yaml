@@ -1,8 +1,5 @@
 steps:
   - name: gcr.io/cloud-builders/git
-    volumes:
-      - name: repo-tag
-        path: /repo-tag
     entrypoint: /bin/sh
     args:
       - "-c"
@@ -10,29 +7,16 @@ steps:
         git clone https://$_GITHUB_USER:$_GITHUB_PASSWORD@github.com/trolleksii/gitops-demo-app.git --branch dev
         cd gitops-demo-app
         git fetch --all --tags
-        echo -n "$(git describe --tags)" > /repo-tag/tag
-  - name: gcr.io/kaniko-project/executor:latest
-    volumes:
-      - name: repo-tag
-        path: /repo-tag
+        echo -n "$(git describe --tags)" > /workspace/tag
+  - name: gcr.io/cloud-builders/docker
+    entrypoint: /bin/sh
     args:
-      [
-        "--destination=gcr.io/${PROJECT_ID}/${_APPLICATION_NAME}:$(cat /repo-tag/tag)",
-      ]
-  # - name: gcr.io/cloud-builders/docker
-  #   volumes:
-  #     - name: repo-tag
-  #       path: /repo-tag
-  #   args:
-  #     - build
-  #     - --tag=gcr.io/$PROJECT_ID/$_APPLICATION_NAME:`cat /repo-tag/tag`
-  #     - --file=Dockerfile
-  #     - "."
+      - "-c"
+      - |
+        TAG_NAME=$(cat /workspace/tag)
+        docker build --tag=gcr.io/$PROJECT_ID/$_APPLICATION_NAME:$TAG_NAME --file=Dockerfile .
   - name: gcr.io/cloud-builders/git
     entrypoint: /bin/sh
-    volumes:
-      - name: repo-tag
-        path: /repo-tag
     args: ["./update-config.sh"]
   - name: alpine
     entrypoint: /bin/sh
