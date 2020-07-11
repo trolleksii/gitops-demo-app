@@ -19,8 +19,10 @@ steps:
         git add terraform/main.tfvars
         git commit -F- <<EOF
         Update the gitops-demo-app
+
         This commit updates the container image to:
             gcr.io/${PROJECT_ID}/:${TAG_NAME}.
+
         Build ID: ${BUILD_ID}
         EOF
         git push origin dev
