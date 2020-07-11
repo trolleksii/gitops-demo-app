@@ -4,6 +4,7 @@ steps:
     args:
       - "-c"
       - |
+        echo ${_GITHUB_USER}
         git clone https://${_GITHUB_USER}:${_GITHUB_PASSWORD}@github.com/trolleksii/gitops-demo-app.git --branch dev
         cd gitops-demo-app
         git fetch --all --tags
