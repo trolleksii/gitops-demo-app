@@ -16,6 +16,7 @@ steps:
         docker build --tag=gcr.io/${PROJECT_ID}/${_APPLICATION_NAME} --file=Dockerfile .
         docker tag gcr.io/${PROJECT_ID}/${_APPLICATION_NAME} gcr.io/${PROJECT_ID}/${_APPLICATION_NAME}:$(cat /workspace/tag)
         docker tag gcr.io/${PROJECT_ID}/${_APPLICATION_NAME} gcr.io/${PROJECT_ID}/${_APPLICATION_NAME}:${COMMIT_SHA}
+        docker push gcr.io/${PROJECT_ID}/${_APPLICATION_NAME} gcr.io/${PROJECT_ID}/${_APPLICATION_NAME}:$(cat /workspace/tag)
   - name: gcr.io/cloud-builders/git
     entrypoint: /bin/sh
     args:
