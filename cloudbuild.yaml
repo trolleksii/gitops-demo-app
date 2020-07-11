@@ -9,6 +9,7 @@ steps:
       - "-c"
       - |
         git clone https://$_GITHUB_USER:$_GITHUB_PASSWORD@github.com/trolleksii/gitops-demo-app.git --branch dev
+        cd gitops-demo-app
         git fetch --all --tags
         echo "$(git describe --tags)" > /repo-tag/tag
   - name: gcr.io/cloud-builders/git
