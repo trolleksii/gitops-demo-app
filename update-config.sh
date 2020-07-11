@@ -1,13 +1,14 @@
 env
 git config --global user.email "cbuild@acme.com"
 git config --global user.name "Google Cloud Build"
-echo -n "https://$_GITHUB_USER:$_GITHUB_PASSWORD@github.com/$_GITHUB_USER/gitops-demo-infra.git" > ~/.git-credentials
-git config --global credential.helper 'store --file ~/.git-credentials'
+echo -n "https://$_GITHUB_USER:$_GITHUB_PASSWORD@github.com/$_GITHUB_USER/gitops-demo-infra.git" > /workspace/.git-credentials
 git clone https://trolleksii@github.com/trolleksii/gitops-demo-infra.git
 cd gitops-demo-infra
-git fetch --all --tags
+git config --global credential.helper 'store --file /workspace/.git-credentials'
 git checkout dev
-TAG_NAME="$(git describe --tags)"
+git fetch --all --tags
+git tag -l
+export TAG_NAME="$(git describe --tags)"
 # update config
 # imitating image tag variable substitution
 sed -i "s/^app = .*$/app = \"$TAG_NAME\"/g" terraform/main.tfvars
