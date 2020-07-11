@@ -1,7 +1,7 @@
 git clone https://$_GITHUB_USER:$_GITHUB_PASSWORD@github.com/trolleksii/gitops-demo-infra.git --branch dev
+cd gitops-demo-infra
 git config --global user.name "Google Cloud Build"
 git config --global user.email "cbuild@acme.com"
-cd gitops-demo-infra
 # update config
 # imitating image tag variable substitution
 sed -i "s/^app = .*$/app = \"$(cat /workspace/tag)\"/g" terraform/main.tfvars
@@ -14,6 +14,4 @@ This commit updates the container image to:
 
 Build ID: $BUILD_ID
 EOF
-git tag $(cat /workspace/tag)
-git push --tags
-git push origin dev
+git push
