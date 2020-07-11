@@ -9,6 +9,6 @@ steps:
       - |
         git config --global user.email "cbuild@acme.com"
         git config --global user.name "Google Cloud Build"
-        echo -n "https://$_GITHUB_USER:$_GITHUB_PASSWORD@github.com/$_GITHUB_USER/devops-demo-infra.git" > ~/.git-credentials
+        echo -n "https://$_GITHUB_USER:$_GITHUB_PASSWORD@github.com/$_GITHUB_USER/gutops-demo-infra.git" > ~/.git-credentials
         git config --global credential.helper 'store --file ~/.git-credentials'
-        git clone https://trolleksii@github.com/trolleksii/devops-demo-infra.git
+        git clone https://trolleksii@github.com/trolleksii/gutops-demo-infra.git
