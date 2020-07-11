@@ -1,11 +1,12 @@
+env
 git config --global user.email "cbuild@acme.com"
 git config --global user.name "Google Cloud Build"
 echo -n "https://$_GITHUB_USER:$_GITHUB_PASSWORD@github.com/$_GITHUB_USER/gitops-demo-infra.git" > ~/.git-credentials
 git config --global credential.helper 'store --file ~/.git-credentials'
 git clone https://trolleksii@github.com/trolleksii/gitops-demo-infra.git
 cd gitops-demo-infra
-git checkout dev
 git fetch --all --tags
+git checkout dev
 TAG_NAME="$(git describe --tags)"
 # update config
 # imitating image tag variable substitution
