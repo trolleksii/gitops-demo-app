@@ -1,6 +1,6 @@
 steps:
-  # - name: gcr.io/kaniko-project/executor:latest
-  #   args: ["--destination=gcr.io/$PROJECT_ID/$_APPLICATION_NAME:$TAG_NAME"]
+  - name: gcr.io/kaniko-project/executor:latest
+    args: ["--destination=gcr.io/$PROJECT_ID/$_APPLICATION_NAME:$TAG_NAME"]
   - name: trolleksii/git
     entrypoint: /bin/sh
     dir: /root
@@ -14,7 +14,9 @@ steps:
         git clone https://trolleksii@github.com/trolleksii/gitops-demo-infra.git
         cd gitops-demo-infra
         git checkout dev
+
         # update config
+        # imitating image tag variable substitution
         sed -i "s/^app = .*$/app = \"${TAG_NAME}\"/g" terraform/main.tfvars
         git add terraform/main.tfvars
         git commit -F- <<EOF
@@ -25,4 +27,6 @@ steps:
 
         Build ID: ${BUILD_ID}
         EOF
+        git tag ${TAG_NAME}
         git push origin dev
+        git push --tags
