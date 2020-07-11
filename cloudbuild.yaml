@@ -4,7 +4,7 @@ steps:
     args:
       - "-c"
       - |
-        git clone https://$_GITHUB_USER:$_GITHUB_PASSWORD@github.com/trolleksii/gitops-demo-app.git --branch dev
+        git clone https://${_GITHUB_USER}:${_GITHUB_PASSWORD}@github.com/trolleksii/gitops-demo-app.git --branch dev
         cd gitops-demo-app
         git fetch --all --tags
         echo -n "$(git describe --tags)" > /workspace/tag
@@ -13,9 +13,9 @@ steps:
     args:
       - "-c"
       - |
-        docker build --tag=gcr.io/$PROJECT_ID/$_APPLICATION_NAME --file=Dockerfile .
-        docker tag gcr.io/$PROJECT_ID/$_APPLICATION_NAME gcr.io/$PROJECT_ID/$_APPLICATION_NAME:$(cat /workspace/tag)
-        docker tag gcr.io/$PROJECT_ID/$_APPLICATION_NAME gcr.io/$PROJECT_ID/$_APPLICATION_NAME:$COMMIT_SHA
+        docker build --tag=gcr.io/${PROJECT_ID}/${_APPLICATION_NAME} --file=Dockerfile .
+        docker tag gcr.io/${PROJECT_ID}/${_APPLICATION_NAME} gcr.io/${PROJECT_ID}/${_APPLICATION_NAME}:$(cat /workspace/tag)
+        docker tag gcr.io/${PROJECT_ID}/${_APPLICATION_NAME} gcr.io/${PROJECT_ID}/${_APPLICATION_NAME}:${COMMIT_SHA}
   - name: gcr.io/cloud-builders/git
     entrypoint: /bin/sh
     args: ["./update-config.sh"]
@@ -23,5 +23,5 @@ steps:
     entrypoint: /bin/sh
     args: ["-c", "echo Placeholder for slack notification"]
 images:
-  - gcr.io/$PROJECT_ID/$_APPLICATION_NAME:latest
-  - gcr.io/$PROJECT_ID/$_APPLICATION_NAME:$COMMIT_SHA
+  - gcr.io/${PROJECT_ID}/${_APPLICATION_NAME}:latest
+  - gcr.io/${PROJECT_ID}/${_APPLICATION_NAME}:${COMMIT_SHA}
