@@ -1,10 +1,9 @@
-env
 git config --global user.email "cbuild@acme.com"
 git config --global user.name "Google Cloud Build"
-echo -n "https://$_GITHUB_USER:$_GITHUB_PASSWORD@github.com/$_GITHUB_USER/gitops-demo-infra.git" > /workspace/.git-credentials
-git clone https://trolleksii@github.com/trolleksii/gitops-demo-infra.git
+# echo -n "https://$_GITHUB_USER:$_GITHUB_PASSWORD@github.com/$_GITHUB_USER/gitops-demo-infra.git" > /workspace/.git-credentials
+git clone https://$_GITHUB_USER:$_GITHUB_PASSWORD@github.com/trolleksii/gitops-demo-infra.git
 cd gitops-demo-infra
-git config --global credential.helper 'store --file /workspace/.git-credentials'
+# git config --global credential.helper 'store --file /workspace/.git-credentials'
 git checkout dev
 git fetch --all --tags
 git tag -l
