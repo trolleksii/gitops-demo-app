@@ -11,15 +11,23 @@ steps:
         cd gitops-demo-app
         git fetch --all --tags
         echo -n "$(git describe --tags)" > /repo-tag/tag
-  - name: gcr.io/cloud-builders/docker
+  - name: gcr.io/kaniko-project/executor:latest
     volumes:
       - name: repo-tag
         path: /repo-tag
     args:
-      - build
-      - --tag=gcr.io/$PROJECT_ID/$_APPLICATION_NAME:`cat /repo-tag/tag`
-      - --file=Dockerfile
-      - "."
+      [
+        "--destination=gcr.io/${PROJECT_ID}/${_APPLICATION_NAME}:$(cat /repo-tag/tag)",
+      ]
+  # - name: gcr.io/cloud-builders/docker
+  #   volumes:
+  #     - name: repo-tag
+  #       path: /repo-tag
+  #   args:
+  #     - build
+  #     - --tag=gcr.io/$PROJECT_ID/$_APPLICATION_NAME:`cat /repo-tag/tag`
+  #     - --file=Dockerfile
+  #     - "."
   - name: gcr.io/cloud-builders/git
     entrypoint: /bin/sh
     volumes:
