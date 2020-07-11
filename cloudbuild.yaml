@@ -4,7 +4,6 @@ steps:
     args:
       - "-c"
       - |
-        echo git clone https://${_GITHUB_USER}:${_GITHUB_PASSWORD}@github.com/trolleksii/gitops-demo-app.git --branch dev
         git clone https://${_GITHUB_USER}:${_GITHUB_PASSWORD}@github.com/trolleksii/gitops-demo-app.git --branch dev
         cd gitops-demo-app
         git fetch --all --tags
@@ -19,11 +18,9 @@ steps:
         docker tag gcr.io/${PROJECT_ID}/${_APPLICATION_NAME} gcr.io/${PROJECT_ID}/${_APPLICATION_NAME}:${COMMIT_SHA}
   - name: gcr.io/cloud-builders/git
     entrypoint: /bin/sh
-    # args: ["./update-config.sh"]
     args:
       - "-c"
       - |
-        echo git clone https://${_GITHUB_USER}:${_GITHUB_PASSWORD}@github.com/trolleksii/gitops-demo-app.git --branch dev
         git clone https://${_GITHUB_USER}:${_GITHUB_PASSWORD}@github.com/trolleksii/gitops-demo-infra.git --branch dev
         cd gitops-demo-infra
         git config --global user.name "Google Cloud Build"
@@ -40,7 +37,8 @@ steps:
 
         Build ID: ${BUILD_ID}
         EOF
-        git remote get-url origin
+        git tag $(cat /workspace/tag)
+        git push --tags
         git push
   - name: alpine
     entrypoint: /bin/sh
