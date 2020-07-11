@@ -3,4 +3,6 @@ steps:
     args: ["--destination=gcr.io/$PROJECT_ID/$_APPLICATION_NAME:$TAG_NAME"]
   - name: trolleksii/git
     entrypoint: /bin/sh
-    args: git tag -l
+    args:
+      - -c
+      - git tag -l
