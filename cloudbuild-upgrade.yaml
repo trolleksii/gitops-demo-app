@@ -33,6 +33,9 @@ steps:
         git tag $(cat /workspace/tag)
         git push --tags
         git push
-  - name: alpine
+  - name: trolleksii/curl
     entrypoint: /bin/sh
-    args: ["-c", "echo Infrastructure config was updated"]
+    args:
+      - "-c"
+      - |
+        curl -H 'Content-Type: application/json' -d "{\"text\": \"Infrastructure config was updated. Application container image is: gcr.io/${PROJECT_ID}/${_APPLICATION_NAME}:$(cat /workspace/tag)\"}" $_WEBHOOK_URL

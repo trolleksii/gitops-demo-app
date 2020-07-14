@@ -19,9 +19,9 @@ steps:
         docker push gcr.io/${PROJECT_ID}/${_APPLICATION_NAME}:$(cat /workspace/tag)
         docker push gcr.io/${PROJECT_ID}/${_APPLICATION_NAME}:latest
         docker push gcr.io/${PROJECT_ID}/${_APPLICATION_NAME}:${COMMIT_SHA}
-  - name: alpine
+  - name: trolleksii/curl
     entrypoint: /bin/sh
     args:
       - "-c"
       - |
-        echo Build completed. Configuration update will happen upon merge.
+        curl -H 'Content-Type: application/json' -d "{\"text\": \"The docker image was built successfully. The container image name is: gcr.io/${PROJECT_ID}/${_APPLICATION_NAME}:$(cat /workspace/tag)\"}" $_WEBHOOK_URL
