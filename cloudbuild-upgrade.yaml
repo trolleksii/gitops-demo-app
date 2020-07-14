@@ -35,4 +35,4 @@ steps:
         git push
   - name: alpine
     entrypoint: /bin/sh
-    args: ["-c", "Print URL for PR creation to propagate the environment"]
+    args: ["-c", "echo Print URL for PR creation to propagate the environment"]
