@@ -35,4 +35,4 @@ steps:
         git push
   - name: alpine
     entrypoint: /bin/sh
-    args: ["-c", "echo Infrastructure config was updated"]
+    args: ["-c", "Print URL for PR creation to propagate the environment"]
