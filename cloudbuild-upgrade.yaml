@@ -38,4 +38,4 @@ steps:
     args:
       - "-c"
       - |
-        curl -H 'Content-Type: application/json' -d "{\"text\": \"Infrastructure config was updated. Application container image is: gcr.io/${PROJECT_ID}/${_APPLICATION_NAME}:$(cat /workspace/tag)\"}" $_WEBHOOK_URL
+        curl -sH 'Content-Type: application/json' -d "{\"text\": \"Infrastructure config was updated. Application container image is: gcr.io/${PROJECT_ID}/${_APPLICATION_NAME}:$(cat /workspace/tag)\"}" $_WEBHOOK_URL
