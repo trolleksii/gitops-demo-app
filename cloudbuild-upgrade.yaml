@@ -20,7 +20,7 @@ steps:
         git config --global user.email "cbuild@acme.com"
         # update config
         # imitating image tag variable substitution
-        sed -i "s/^app = .*$/app = \"$(cat /workspace/tag)\"/g" terraform/main.tfvars
+        sed -i "s/^image_tag = .*$/image_tag = \"$(cat /workspace/tag)\"/g" terraform/main.tfvars
         git add terraform/main.tfvars
         cat <<EOF | git commit -F-
         Update the gitops-demo-app
@@ -35,4 +35,4 @@ steps:
         git push
   - name: alpine
     entrypoint: /bin/sh
-    args: ["-c", "echo Infrastructure config was updated"]
+    args: ["-c", "Print URL for PR creation to propagate the environment"]
